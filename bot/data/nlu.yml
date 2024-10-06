@@ -1,0 +1,261 @@
+version: "3.1"
+
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+
+- intent: goodbye
+  examples: |
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+    - sure
+    - absolutely
+    - that's right
+
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+    - nope
+    - nah
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+    - are you real?
+    - is this a bot or a person?
+
+- intent: register
+  examples: |
+    - sign me up.
+    - I want to register.
+    - please register me.
+    - create a new account.
+    - help me sign up.
+    - I need to register.
+    - how can I register?
+    - can you sign me up?
+    - I'd like to register.
+    - let's get started with the registration.
+    - I want to create an account.
+    - can I sign up?
+
+- intent: new_ticket
+  examples: |
+    - I need help with an issue.
+    - I'd like to raise a ticket.
+    - can you create a ticket for me?
+    - I am having a problem.
+    - I am experiencing an issue.
+    - I need to report a problem.
+    - report an issue.
+    - I need to create a support ticket.
+    - I am facing a technical issue.
+    - please help with my issue.
+    - can I submit a new ticket?
+    - open a ticket for me
+    - My issue is [internet not working](issue)
+    - I am having [trouble with my internet](issue)
+    - i have [internet trouble](issue)
+    - i have [software issues](issue)
+    - i have [internet trouble and software issues](issue)
+    - My [phone suddenly turning off](issue)
+    - My [mobile phone is lagging](issue)
+    - My [mobile phone is lagging and suddenly turning off](issue)
+    - issue: [car engine stopped working](issue)
+    - issue: [car battery died](issue)
+    - issue: [car battery died and engine stopped working](issue)
+    - my [phone is not working](issue)
+    - my [earphones are not working](issue)
+
+- intent: issue_idn_wrong
+  examples: |
+    - No the issue is wrong.
+    - No that is wrong issue.
+    - I will give the exact issue.
+    - No that's wrong
+    - No thats wrong
+    - incorrect
+    - incorrect issue
+
+# - intent: issue_description
+#   examples: |
+#     - The issue is that my service is not working
+#     - I have a problem with billing
+#     - My account is locked
+#     - I am facing login issues
+#     - I cannot access my profile
+#     - I cannot access my account
+#     - I cannot reset my password because I don't have access to the registered email
+#     - I cannot reset my password because I don't have access to the registered number
+#     - My order was not delivered
+#     - There’s an issue with my transaction
+#     - The website is too slow
+
+- intent: ticket_status
+  examples: |
+    - check my ticket status.
+    - what is the status of my ticket?
+    - can you tell me my ticket status?
+    - I need to know the status of my ticket.
+    - give me an update on my ticket.
+    - how is my ticket progressing?
+    - any updates on my ticket?
+    - please show me my ticket status.
+    - update me on my issue status.
+    - what's happening with my ticket?
+    - what is my ticket status?
+    - can you tell me the status of my ticket?
+    - status of ticket with ID [12345](ticket_id)
+    - I want to know the status of ticket [67890](ticket_id)
+    - ticket status for ID [99887](ticket_id)
+    - what's the status of my open ticket?
+    - can you check my open tickets?
+
+# - intent: update_ticket_issue
+#   examples: |
+#     - Please change the ticket issue to [new issue](issue) with ticket id [12345](ticket_id)
+#     - Kindly update the ticket issue to [new issue](issue) for ticket ID [12345](ticket_id).
+#     - Could you change the issue to [new issue](issue) for ticket [12345](ticket_id)?
+#     - Please modify the issue of ticket [12345](ticket_id) to [new issue](issue).
+#     - I would like to update the ticket issue to [new issue](issue) for ticket number [12345](ticket_id).
+#     - Can you update the issue to [new issue](issue) on ticket [12345](ticket_id)?
+
+
+# - intent: connect_us
+#   examples: |
+#     - connect me with an agent.
+#     - I want to speak with someone.
+#     - can I talk to a live agent?
+#     - put me through to support.
+#     - I need to talk to customer service.
+#     - I need human help.
+#     - please connect me to a live agent.
+#     - get me a support agent.
+#     - I want to chat with an agent.
+#     - can you connect me with someone from support?
+#     - talk to a real person
+#     - I need to talk to a real person
+
+# - intent: details
+#   examples: |
+#     - details: [John Doe](name) [1234567890](ph_number) [john.doe@example.com](email)
+#     - my details are [Sarah Smith](name) [0987654321](ph_number) [sarah.smith@example.com](email)
+#     - here's my info: [David Johnson](name) [1112223333](ph_number) [david.j@example.com](email)
+#     - my contact details are [Rachel Adams](name) [4445556666](ph_number) [r.adams@example.com](email)
+#     - details: [Emily Brown](name) [7778889999](ph_number) [emily.brown@example.com](email)
+#     - contact info: [Inder](name) [8473629573](ph_number) [inder@gmail.com](email)
+#     - my name is [James](name), you can reach me at [9876543210](ph_number) or [james@test.com](email)
+#     - my name is [Alice](name) and here are my details: [alice@gmail.com](email) [2223334444](ph_number)
+
+# - intent: reg_details
+#   examples: |
+#     - details: [inder@1](username) [1234567890](ph_number) [abcde@10.267_cdnj3](password)
+#     - [inder@1](username) [1234567890](ph_number) [abcde@10.267_cdnj3](password)
+#     - [inder@1](username) [abcde@10.267_cdnj3](password) [1234567890](ph_number)
+#     - my username is [guest_user](username), my phone number is [1234567890](ph_number), and my password is [password123](password)
+#     - please register me with username [user123](username), phone number [9876543210](ph_number), and password [password123](password)
+#     - please register me with user name [user123](username), phone number [9876543210](ph_number), and password [password123](password)
+#     - my username is [user123](username), my phone number is [3758357923](ph_number), and my password is [password123](password)
+#     - register me with username [guest_user](username), phone number [1234567890](ph_number), and password [mypassword](password)
+#     - I want to sign up with username [user123](username), phone number [9876543210](ph_number), and password [securePassword](password)
+#     - username: [inder](username), phone: [3954089575](ph_number), password: [sdjiof@sdkojfn_2984](password)
+
+
+# inder_2 3954089575 sdjiof@sdkojfn_2984
+# username user123, phone number 9876543210, and password password123
+# - intent: ticket_history
+#   examples: |
+#     - show me my ticket history
+#     - what are my tickets?
+#     - can I see all my tickets?
+#     - list my active tickets
+#     - give me the history of my tickets
+#     - show all my non-cancelled tickets
+#     - show me my past tickets
+#     - what are my previous tickets?
+#     - show me all my resolved tickets
+#     - list my open tickets
+#     - Show me my ticket history
+#     - What are my active tickets?
+#     - Can I see my non-canceled tickets?    
+
+# - intent: get_passkey
+#   examples: |
+#     - can I get my passkey?
+#     - I want my passkey
+#     - show me my passkey
+#     - how can I get my passkey?
+#     - get passkey
+#     - please provide my passkey
+#     - I need my 4-digit passkey
+
+# - intent: provide_super_password
+#   examples: |
+#     - my super password is [password](passkey)
+#     - here is my super password: [password](passkey)
+#     - I have the super password: [password](passkey)
+#     - passkey [password](passkey)
+#     - super [password](passkey)
+#     - my admin password is [password](passkey)
+#     - use this passkey [password](passkey)
+
+# - intent: admin_super_password
+#   examples: |
+#     - super [password](super_passkey) [username](username)
+#     - super [password](super_passkey) [userid](userid)
+#     - super [username](username) [password](super_passkey)
+#     - super [userid](userid) [password](super_passkey)
+#     - admin password [password](super_passkey) [username](username)
+#     - admin [password](super_passkey) for [userid](userid)
+#     - super key [password](super_passkey) for user [username](username)
+
+# - intent: user_login
+#   examples: |
+#     - I'm logged in.
+#     - I want to log in.
+#     - Please log me in.
+
+# - intent: user_logout
+#   examples: |
+#     - Log me out.
+#     - I want to log out.
+#     - Please sign me out.

@@ -1,0 +1,24 @@
+version: "3.1"
+
+rules:
+  - rule: Say 'I am a bot' anytime the user challenges
+    steps:
+      - intent: bot_challenge
+      - action: utter_noiamabot
+      - action: utter_help
+      
+# - rule: greet user without username
+#   steps:
+#     - intent: greet
+#     - action: action_fetch_username
+#     - slot_was_set:
+#         - username: null
+#     - action: utter_greet
+
+# - rule: greet user with username
+#   steps:
+#     - intent: greet
+#     - action: action_fetch_username
+#     - slot_was_set:
+#         - username
+#     - action: utter_greet_login

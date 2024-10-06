@@ -1,0 +1,105 @@
+version: "3.1"
+
+stories:
+  # - story: greet user
+  #   steps:
+  #     - intent: greet
+  #     - action: action_fetch_username
+  #     - slot_was_set:
+  #         - username: null
+  #     - action: utter_greet
+  #     - slot_was_set:
+  #         - username
+  #     - action: utter_greet_login
+
+  # - story: denied
+  #   steps:
+  #     - intent: deny
+  #     - action: utter_help
+  #     - slot_was_set:
+  #       - username: null
+  #     - action: utter_greet
+  #     - slot_was_set:
+  #       - username
+  #     - action: utter_greet_login
+
+  # - story: greet
+  #   steps:
+  #     - intent: greet
+  #     - action: action_fetch_username
+
+  - story: greet login
+    steps:
+      - intent: greet
+      # - action: action_fetch_username
+      - action: utter_greet_login
+
+  - story: new ticket
+    steps:
+      - intent: new_ticket
+      # - action: action_fetch_username
+      - action: action_raise_ticket
+      - action: utter_raise_ticket
+      - intent: affirm
+      - action: action_new_ticket
+      - action: utter_greet_login
+
+  - story: ticket status
+    steps:
+      - intent: ticket_status
+      - action: action_ticket_status
+      - action: utter_greet_login
+
+
+  # - story: new ticket
+  #   steps:
+  #     - intent: new_ticket
+  #     - slot_was_set:
+  #         - issue
+  #     - action: action_raise_ticket
+  #     - action: utter_raise_ticket
+  #     - intent: affirm
+  #     - action: utter_ticket_created
+  #     - intent: issue_idn_wrong
+  #     - action: utter_ticket_idn_wrong
+  #     - action: action_new_ticket
+  #     - action: utter_greet_login
+  #     - slot_was_set:
+  #         - issue: null
+  #     - action: utter_ticket_idn_wrong
+
+# - story: available_subjects path
+#   steps:
+#   - intent: available_subjects
+#   - action: action_subjects_available
+#   - action: utter_greet
+
+# - story: study material path
+#   steps:
+#   # - intent: greet
+#   # - action: utter_greet
+#   - intent: study_material
+#   - action: action_study_material
+#   - action: utter_greet
+#   # - intent: goodbye
+#   # - action: utter_goodbye
+
+# - story: tutorial button
+#   steps:
+#   - intent: tutorials
+#   - action: utter_tutorials
+#   - action: utter_greet
+#   - intent: interview
+#   - action: utter_interview
+#   - action: utter_greet
+
+# - story: details path
+#   steps:
+#   - intent: contact
+#   - action: utter_get_details
+#   - intent: get_details
+#   # - slot_was_set:
+#   #   - name: rahul
+#   - action: action_validate_slot_mappings
+#   - action: utter_confirm_details
+#   - action: utter_greet

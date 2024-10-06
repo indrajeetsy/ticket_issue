@@ -1,0 +1,536 @@
+User Types -> Not Registered & Registered
+Menu Options -
+    New Ticket
+    Ticket Status
+    Connect to Live Agent
+    Register Myself
+
+
+Ticket History Intent: User wants to add a 'ticket history' intent in NLU, where the user can ask for all tickets that are not canceled.
+
+User Registration Flow:
+
+User clicks on Register or writes a message to register.
+Ask for details once agreed to sign up.
+Create a modal using chatbot.js to ask for name, username (required), email, and/or phone number (one of them is required), and password (with confirm password).
+Validate username availability, check if email and/or phone is unique in the database, and ensure correct formats.
+A red asterisk indicates required fields (name, email, and/or phone number).
+Ticket Status Flow:
+
+User clicks or messages for ticket status.
+If no active tickets, respond indicating so.
+If active tickets exist, fetch them and create buttons.
+If a valid ticket ID is provided, create a modal to display ticket details and provide options to cancel it.
+Ticket History Flow:
+
+Similar to ticket status but fetches all tickets for the logged-in user with cancelled_by_user=False.
+Admin can access canceled tickets with a super password.
+Unique passkey for each user to access their entire history.
+Admin's passkey allows access to anyone's history.
+User Passkey Generation:
+
+A 4-digit key is generated automatically at registration and displayed in chat.
+Users can ask for their passkey by providing user_password.
+Admin Notification:
+
+Notify the admin if the user modifies any ticket details.
+Connect to Live Agent Flow:
+
+User requests a live agent.
+Ask for user details if not provided, and send confirmation via email and text.
+New Ticket Flow:
+
+User clicks 'New Ticket' or messages the issue.
+Bot confirms the issue and creates a ticket, notifying the admin.
+User can only modify the issue and cancel active tickets. Admin can modify ticket status and inform the user if online.
+
+Draggable Chatbot Button:
+
+The chatbot button should be draggable and designed like the provided video.
+Create a init_chatbot function in chatbot.js to initialize the chatbot once the connection to the channel and Rasa server is established, with parameters including: 
+initPayload: '/greet'
+customData: { language: "en" }
+socketUrl: "http://localhost:5005"
+title: 'Site Assistant'
+subtitle: 'By Indrajeet (Just say hi for options)'
+all the chatbot elements are created by the chatbot.js when init_chatbot() is called in any html page 
+this chatbot should have independent css and js for using it in any html page with just one simple start_chat() function call
+
+accepted files
+nlu.ylm
+version: "3.1"
+
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+
+- intent: goodbye
+  examples: |
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+    - sure
+    - absolutely
+    - that’s right
+
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+    - nope
+    - nah
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+    - are you real?
+    - is this a bot or a person?
+
+- intent: register
+  examples: |
+    - sign me up.
+    - I want to register.
+    - please register me.
+    - create a new account.
+    - help me sign up.
+    - I need to register.
+    - how can I register?
+    - can you sign me up?
+    - I'd like to register.
+    - let's get started with the registration.
+    - I want to create an account.
+    - can I sign up?
+
+- intent: new_ticket
+  examples: |
+    - I need help with an issue.
+    - I'd like to raise a ticket.
+    - can you create a ticket for me?
+    - I am having a problem.
+    - I am experiencing an issue.
+    - I need to report a problem.
+    - report an issue.
+    - I need to create a support ticket.
+    - I am facing a technical issue.
+    - please help with my issue.
+    - can I submit a new ticket?
+    - open a ticket for me
+    - My issue is [internet not working](issue)
+    - I am having trouble with [my internet](issue)
+
+- intent: issue_description
+  examples: |
+    - The issue is that my service is not working
+    - I have a problem with billing
+    - My account is locked
+    - I am facing login issues
+    - I cannot access my profile
+    - I cannot access my account
+    - I cannot reset my password because I don't have access to the registered email
+    - I cannot reset my password because I don't have access to the registered number
+    - My order was not delivered
+    - There’s an issue with my transaction
+    - The website is too slow
+
+- intent: ticket_status
+  examples: |
+    - check my ticket status.
+    - what is the status of my ticket?
+    - can you tell me my ticket status?
+    - I need to know the status of my ticket.
+    - give me an update on my ticket.
+    - how is my ticket progressing?
+    - any updates on my ticket?
+    - please show me my ticket status.
+    - update me on my issue status.
+    - what's happening with my ticket?
+    - what is my ticket status?
+    - can you tell me the status of my ticket?
+    - status of ticket with ID [12345](ticket_id)
+    - I want to know the status of ticket [67890](ticket_id)
+    - ticket status for ID [99887](ticket_id)
+    - what's the status of my open ticket?
+    - can you check my open tickets?
+    - Please change the ticket issue to [new issue](issue) with ticket id [12345](ticket_id)
+    - Kindly update the ticket issue to [new issue](issue) for ticket ID [12345](ticket_id).
+    - Could you change the issue to [new issue](issue) for ticket [12345](ticket_id)?
+    - Please modify the issue of ticket [12345](ticket_id) to [new issue](issue).
+    - I would like to update the ticket issue to [new issue](issue) for ticket number [12345](ticket_id).
+    - Can you update the issue to [new issue](issue) on ticket [12345](ticket_id)?
+
+
+- intent: connect_us
+  examples: |
+    - connect me with an agent.
+    - I want to speak with someone.
+    - can I talk to a live agent?
+    - put me through to support.
+    - I need to talk to customer service.
+    - I need human help.
+    - please connect me to a live agent.
+    - get me a support agent.
+    - I want to chat with an agent.
+    - can you connect me with someone from support?
+    - talk to a real person
+    - I need to talk to a real person
+
+- intent: details
+  examples: |
+    - details: [John Doe](name) [1234567890](ph_number) [john.doe@example.com](email)
+    - my details are [Sarah Smith](name) [0987654321](ph_number) [sarah.smith@example.com](email)
+    - here's my info: [David Johnson](name) [1112223333](ph_number) [david.j@example.com](email)
+    - my contact details are [Rachel Adams](name) [4445556666](ph_number) [r.adams@example.com](email)
+    - details: [Emily Brown](name) [7778889999](ph_number) [emily.brown@example.com](email)
+    - contact info: [Inder](name) [8473629573](ph_number) [inder@gmail.com](email)
+    - my name is [James](name), you can reach me at [9876543210](ph_number) or [james@test.com](email)
+    - my name is [Alice](name) and here are my details: [alice@gmail.com](email) [2223334444](ph_number)
+
+- intent: ticket_history
+  examples: |
+    - show me my ticket history
+    - what are my tickets?
+    - can I see all my tickets?
+    - list my active tickets
+    - give me the history of my tickets
+    - show all my non-cancelled tickets
+    - show me my past tickets
+    - what are my previous tickets?
+    - show me all my resolved tickets
+    - list my open tickets
+
+- intent: get_passkey
+  examples: |
+    - can I get my passkey?
+    - I want my passkey
+    - show me my passkey
+    - how can I get my passkey?
+    - get passkey
+    - please provide my passkey
+    - I need my 4-digit passkey
+
+- intent: provide_super_password
+  examples: |
+    - my super password is [password](passkey)
+    - here is my super password: [password](passkey)
+    - I have the super password: [password](passkey)
+    - passkey [password](passkey)
+    - super [password](passkey)
+    - my admin password is [password](passkey)
+    - use this passkey [password](passkey)
+
+- intent: admin_super_password
+  examples: |
+    - super [password](super_passkey) [username](username)
+    - super [password](super_passkey) [userid](userid)
+    - super [username](username) [password](super_passkey)
+    - super [userid](userid) [password](super_passkey)
+    - admin password [password](super_passkey) [username](username)
+    - admin [password](super_passkey) for [userid](userid)
+    - super key [password](super_passkey) for user [username](username)
+
+domain.yml
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - bot_challenge
+  - register
+  - new_ticket
+  - ticket_status
+  - connect_us
+  - details
+  - provide_issue
+  - ticket_history
+  - get_passkey
+  - admin_super_password
+
+entities:
+  - name
+  - ph_number
+  - email
+  - ticket_id
+  - issue
+  - super_password
+  - username
+  - userid
+
+slots:
+  user_logged_in:
+    type: bool
+    initial_value: false
+  ticket_ids:
+    type: list
+    influence_conversation: true
+  super_password:
+    type: text
+  username:
+    type: text
+  userid:
+    type: text
+  issue:
+    type: text
+    influence_conversation: true
+  name:
+    type: text
+    influence_conversation: true
+  phone_number:
+    type: text
+    influence_conversation: true
+  email:
+    type: text
+    influence_conversation: true
+  user_password:
+    type: text
+    influence_conversation: false
+  passkey:
+    type: text
+    influence_conversation: false
+  admin_passkey:
+    type: text
+    influence_conversation: false
+
+responses:
+  utter_greet:
+    - text: "Hello! How can I assist you today?"
+
+  utter_goodbye:
+    - text: "Goodbye! Have a great day."
+
+  utter_affirm:
+    - text: "Great! What would you like to do next?"
+
+  utter_deny:
+    - text: "Alright, let me know if you need anything else."
+
+  utter_bot_challenge:
+    - text: "I am an AI chatbot created to assist you."
+
+  utter_ask_name:
+    - text: "May I have your name, please?"
+
+  utter_ask_ph_number:
+    - text: "Could you provide your phone number?"
+
+  utter_ask_email:
+    - text: "Please share your email address."
+
+  utter_ask_issue:
+    - text: "Please describe the issue you are facing."
+
+  utter_register_confirmation:
+    - text: "Thank you {name}! You have been registered."
+
+  utter_ticket_created:
+    - text: "Your ticket has been created successfully."
+
+  utter_ticket_status:
+    - text: "You have active tickets. Please choose one to check status:"
+      buttons:
+        - title: "{ticket_id}"
+          payload: "/ticket_status{{\"ticket_id\":\"{ticket_id}\"}}"
+
+  utter_connect_us:
+    - text: "Connecting you to a live agent now."
+
+  utter_choose_action:
+    - condition:
+        - slot_was_set:
+            - user_logged_in: true
+      text: "What would you like to do next?"
+      buttons:
+        - title: "Create Ticket"
+          payload: "/new_ticket"
+        - title: "Check Ticket Status"
+          payload: "/ticket_status"
+        - title: "Ticket History"
+          payload: "/ticket_history"
+        - title: "Connect to Agent"
+          payload: "/connect_us"
+
+    - condition:
+        - slot_was_set:
+            - user_logged_in: false
+      text: "What would you like to do next?"
+      buttons:
+        - title: "Register"
+          payload: "/register"
+        - title: "Connect to Agent"
+          payload: "/connect_us"
+
+  utter_ticket_history:
+    - text: "Here are all your active tickets that are not canceled. Please choose one to check status:"
+      buttons:
+        - title: "{ticket_id}"
+          payload: "/ticket_history{{\"ticket_id\":\"{ticket_id}\"}}"
+
+  utter_ticket_history_with_passkey:
+    - text: "Here is your complete ticket history, including canceled tickets. Please choose one to check status:"
+      buttons:
+        - title: "{ticket_id}"
+          payload: "/ticket_history{{\"ticket_id\":\"{ticket_id}\"}}"
+
+  utter_admin_ticket_history:
+    - text: "Here is the ticket history for user {username} or user ID {userid}, including canceled tickets. Please choose one to check status:"
+      buttons:
+        - title: "{ticket_id}"
+          payload: "/ticket_history{{\"ticket_id\":\"{ticket_id}\"}}"
+
+actions:
+  - action_save_details
+  - action_create_ticket
+  - action_check_ticket_status
+  - action_connect_to_agent
+  - action_check_auth
+  - action_fetch_ticket_status
+  - action_get_ticket_history
+
+stories.yml
+version: "3.1"
+
+stories:
+- story: user greets and registers
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: register
+  - action: utter_ask_name
+  - slot_was_set:
+    - name: null
+  - intent: details
+  - action: action_save_details
+  - action: utter_register_confirmation
+  - action: utter_choose_action
+
+- story: user creates a new ticket
+  steps:
+  - intent: new_ticket
+  - action: utter_ask_issue
+  - slot_was_set:
+    - issue: null
+  - intent: issue_description
+  - action: action_create_ticket
+  - action: utter_ticket_created
+  - action: utter_choose_action
+
+- story: user checks ticket status
+  steps:
+  - intent: ticket_status
+  - action: action_check_ticket_status
+  - action: utter_ticket_status
+
+- story: user requests ticket history
+  steps:
+  - intent: ticket_history
+  - action: action_get_ticket_history
+  - action: utter_ticket_history
+
+- story: user requests ticket history with passkey
+  steps:
+  - intent: ticket_history
+  - action: action_get_ticket_history
+  - intent: provide_super_password
+  - action: action_get_ticket_history
+  - action: utter_ticket_history_with_passkey
+
+- story: user connects to a live agent
+  steps:
+  - intent: connect_us
+  - action: utter_ask_name
+  - slot_was_set:
+    - name: null
+  - intent: details
+  - action: action_connect_to_agent
+  - action: utter_connect_us
+
+- story: user checks ticket status with specific ticket ID
+  steps:
+  - intent: ticket_status
+  - action: action_fetch_ticket_status
+  - action: utter_ticket_status
+
+- story: user denies help
+  steps:
+  - intent: deny
+  - action: utter_deny
+
+- story: user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: user confirms an action
+  steps:
+  - intent: affirm
+  - action: utter_affirm
+  - action: utter_choose_action
+
+in base.html take note of comment while making init_chatbot
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  <link href="{% static 'css/chatbot.css' %}" rel="stylesheet">
+</head>
+<body>
+    
+</body>
+<script src="{% static 'js/chatbot.js' %}"></script>
+<script>
+
+    init_chatbot('/greet',"http://localhost:5005")
+    // all parameters in this function
+    // init_chatbot(
+    //     initPayload='/greet',customData={ language:"en" },socketUrl="http://localhost:5005",
+    //     title='Site Assistant',subtitle='By Indrajeet (Just say hi for options)'
+    //     )
+    // These are default values
+    // even the following should initialize the chatbot
+    // init_chatbot()
+</script>
+</html>
+ 
+write all the remaining codes actions,views, models, urls, websocket channels, chatbot.js/css,
+and any other configurations or files that will be needed for this task. help me run the whole  chatbot integrated website.

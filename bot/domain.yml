@@ -1,0 +1,134 @@
+version: "3.1"
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - bot_challenge
+  - register
+  - new_ticket
+  - issue_idn_wrong
+  - ticket_status
+
+entities:
+  - issue
+  - username
+  - count
+  - ticket_id
+
+slots:
+  count:
+    type: float
+    initial_value: 0
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: count
+        value: 0
+
+  username:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: username
+
+  issue:
+    type: text
+    influence_conversation: False
+    mappings:
+      - type: from_entity
+        entity: issue
+
+  ticket_id:
+    type: text
+    influence_conversation: False
+    mappings:
+      - type: from_entity
+        entity: ticket_id
+
+
+responses:
+  utter_noiamabot:
+    - text: No I am bot.
+
+  utter_help:
+    - text: How can I help you?
+
+  utter_greet_login:
+    - text: Hey {username}! How can I help you?
+      buttons:
+        - title: Raise a new
+          payload: "/new_ticket"
+        - title: Ticket Status
+          payload: "/ticket_status"
+        - title: Contact me.
+          payload: "/contact"
+        - title: Log out
+          payload: "/log_out"
+        - title: Log out
+          payload: "/introduction"
+    - text: Hey {username}! Is there anything I can help you with?
+      buttons:
+        - title: Raise a new
+          payload: "/new_ticket"
+        - title: Ticket Status
+          payload: "/ticket_status"
+        - title: Contact me.
+          payload: "/contact"
+        - title: Log out
+          payload: "/log_out"
+        - title: Log out
+          payload: "/introduction"
+    - text: Welcome to site assistant {username}! How may I assist you?
+      buttons:
+        - title: Raise a new
+          payload: "/new_ticket"
+        - title: Ticket Status
+          payload: "/ticket_status"
+        - title: Contact me.
+          payload: "/contact"
+        - title: Log out
+          payload: "/log_out"
+        - title: Log out
+          payload: "/introduction"
+
+  utter_greet:
+    - text: Hey! How can I help you? Login for more assistance.
+      buttons:
+        - title: "Register or login"
+          payload: "/register"
+        - title: "Connect to Agent"
+          payload: "/connect_us"
+    - text: Hey! Is there anything I can help you with? Login for more assistance.
+      buttons:
+        - title: "Register"
+          payload: "/register"
+        - title: "Connect to Agent"
+          payload: "/connect_us"
+    - text: Welcome to site assistant! How may I assist you? Login for more assistance.
+      buttons:
+        - title: "Register"
+          payload: "/register"
+        - title: "Connect to Agent"
+          payload: "/connect_us"
+
+  utter_raise_ticket:
+    - text: Should I raise a new ticket for the above issue {issue}?
+
+  utter_ticket_idn_wrong:
+    - text: Can you please provide the exact issue you are facing?
+
+  utter_ticket_created:
+    - text: New ticket raised
+
+actions:
+  - action_fetch_username
+  - action_new_ticket
+  - action_raise_ticket
+  - action_login
+  - action_ticket_status
